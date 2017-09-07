@@ -4,10 +4,10 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "fscm/cassandra"
 
-  config.vm.network "forwarded_port", guest: 9042, host: 9042
+  config.vm.network "forwarded_port", guest: 8778, host: 8778
 
   config.vm.provider "virtualbox" do |vb|
-    vb.gui = true
+    vb.gui = false
     vb.memory = "1024"
   end
 
@@ -16,5 +16,6 @@ Vagrant.configure("2") do |config|
       -O /srv/cassandra/lib/jolokia-jvm-1.3.7-agent.jar
     echo '-javaagent:/srv/cassandra/lib/jolokia-jvm-1.3.7-agent.jar=host=*,port=8778,discoveryEnabled=false' \
       >> /srv/cassandra/conf/jvm.options
+    service cassandra restart
   SHELL
 end
